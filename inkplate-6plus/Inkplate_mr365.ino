@@ -8,24 +8,24 @@
 ////////////////////////////////
 
 // Wifi SSID & Password
-char ssid[] = "Wasabi";
-char pass[] = "letthemeatsushi";
+char ssid[] = "networkssid";
+char pass[] = "wifipassword";
 
 // Display Key
-char displayKey[] = "fooallbars";
+char displayKey[] = "yourdisplaykeyhere";
 
 // Timezone String
 // If this is set, you don't need to provide an offset
 // ------------------------------------------------------------
-// String timezone_string = ""; // None, or use your own custom Unix timezone string
+String timezone_string = ""; // None, or use your own custom Unix timezone string
 // String timezone_string = "America/New_York"; // Eastern, US
 // String timezone_string = "America/Chicago"; // Central, US
 // String timezone_string = "America/Denver"; // Mountain, US
-String timezone_string = "America/Los_Angeles"; // Pacific, US
+//String timezone_string = "America/Los_Angeles"; // Pacific, US
 // ------------------------------------------------------------
 
 // Timezone Offset, if timezone_string is not set
-int timeZone = 0;
+int timeZone = -7;
 // ------------------------------------------------------------
 
 // Use a digital clock (vs. analog clock)
@@ -185,6 +185,7 @@ void getTimeUpdateClock() {
 
     // Update digital clock string (2)
     if (digitalclock == 2) {
+      if (digital_clock0_h == 0) digital_clock0_h = 12;
       text5c_content = String(digital_clock0_h) + ":" + (digital_clock0_m < 10 ? "0" : "") + String(digital_clock0_m);
       text5c_cursor_x = digital_clock0_h >= 20 ? 790 : (digital_clock0_h >= 10 ? 800 : 823);
     }
