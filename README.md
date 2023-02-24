@@ -53,6 +53,28 @@ https://soldered.com/product/inkplate-6plus-with-enclosure-e-paper-display-with-
 https://soldered.com/product/soldered-inkplate-6plus-with-enclosure-e-paper-display-with-touchscreen-copy/
 
 
+## Getting Started with the InkPlate 6 Plus
+
+https://www.crowdsupply.com/e-radionica/inkplate-6/updates/getting-started-with-inkplate-6-and-arduino-ide
+
+https://github.com/SolderedElectronics/Inkplate-Arduino-library
+
+### Setting up Inkplate 6 Using the Arduino IDE
+In order to get started with Inkplate 6, follow the steps below:
+
+1. [Install the Inkplate 6 board definition](https://github.com/e-radionicacom/Croduino-Board-Definitions-for-Arduino-IDE/blob/master/README.md) to add Inkplate 6 Plus as a board in Arduino IDE
+2. [Install the CH340 drivers](https://soldered.com/learn/ch340-driver-installation-croduino-basic3-nova2/) (if you don't have them already)
+3. Install the Inkplate 6 Plus Arduino library from our GitHub repository ([Guide](https://soldered.com/learn/arduino-library/#Kako%20instaliraty%20library?))
+4. Your Inkplate 6 is now ready to go! Just select Tools -> Board -> Inkplate 6, choose the correct COM port, and upload your code, cloned from the linked repository
+
+## Building and Deploying the Meeting Room 365 app to the InkPlate 6 Plus
+
+1. Clone the linked [GitHub Repository](https://github.com/kidGodzilla/mr365-inkplate-display), and open it in Arduino IDE
+2. Modify variables in the top portion of [Inkplate_mr365.ino](https://github.com/kidGodzilla/mr365-inkplate-display/blob/main/inkplate-6plus/Inkplate_mr365.ino). You will need to add your SSID, Wifi Password, and Display Key, at minimum.
+3. Ensure the correct board is selected under the "Tools" tab.
+4. Click "Upload" under the "Sketch" tab.
+
+
 ## Photos
 
 ![Occupied](1.jpg)
