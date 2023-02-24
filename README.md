@@ -57,6 +57,12 @@ https://soldered.com/product/soldered-inkplate-6plus-with-enclosure-e-paper-disp
 
 ![Occupied](1.jpg)
 
+The room is occupied, and the display is in standby. Using the analog clock option.
+
 ![Available](2.jpg)
 
+The room is available, and the display is in standby. This uses the digital clock option.
+
 ![Active](3.jpg)
+
+The room is occupied, and active. Three actions are available based on the room state: Grab Room, Extend, or End Meeting.
