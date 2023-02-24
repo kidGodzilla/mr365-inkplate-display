@@ -69,7 +69,7 @@ In order to get started with Inkplate 6, follow the steps below:
 
 ## Building and Deploying the Meeting Room 365 app to the InkPlate 6 Plus
 
-1. Clone the linked [GitHub Repository](https://github.com/kidGodzilla/mr365-inkplate-display), and open it in Arduino IDE
+1. Clone or [Download](https://github.com/kidGodzilla/mr365-inkplate-display/archive/refs/heads/main.zip) the linked [GitHub Repository](https://github.com/kidGodzilla/mr365-inkplate-display), and open it in Arduino IDE
 2. Modify variables in the top portion of [Inkplate_mr365.ino](https://github.com/kidGodzilla/mr365-inkplate-display/blob/main/inkplate-6plus/Inkplate_mr365.ino). You will need to add your SSID, Wifi Password, and Display Key, at minimum.
 3. Ensure the correct board is selected under the "Tools" tab.
 4. Click "Upload" under the "Sketch" tab.
