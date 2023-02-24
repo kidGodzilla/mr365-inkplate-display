@@ -11,12 +11,6 @@ this six-inch e-paper display – recycled from a Kindle e-reader -
 incredibly easy to control. Just plug in a USB cable, open Arduino IDE,
 and change the contents of the screen with few lines of code – All provided.
 
-## Photos
-
-![Occupied](1.jpg)
-
-![Available](2.jpg)
-
 ## Battery Life
 
 Up to a month between charges (wake button is pressed before making a reservation), or a full week with touchscreen instantly active during business hours.
@@ -58,3 +52,11 @@ https://soldered.com/product/inkplate-6plus-with-enclosure-e-paper-display-with-
 
 https://soldered.com/product/soldered-inkplate-6plus-with-enclosure-e-paper-display-with-touchscreen-copy/
 
+
+## Photos
+
+![Occupied](1.jpg)
+
+![Available](2.jpg)
+
+![Active](3.jpg)
