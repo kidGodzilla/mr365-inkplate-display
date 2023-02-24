@@ -1,4 +1,4 @@
-# mr365-inkplate-display
+# Meeting Room 365 Inkplate Display
 
 This repository lets you create a Meeting Room 365 display to run on the Inkplate 6 Plus E-Ink Display.
 
@@ -10,6 +10,12 @@ A powerful, Wi-Fi enabled ESP32 microcontroller makes
 this six-inch e-paper display – recycled from a Kindle e-reader -
 incredibly easy to control. Just plug in a USB cable, open Arduino IDE,
 and change the contents of the screen with few lines of code – All provided.
+
+## Photos
+
+![Occupied](1.jpg)
+
+![Available](2.jpg)
 
 ## Battery Life
 
