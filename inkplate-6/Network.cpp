@@ -205,9 +205,9 @@ bool Network::getData() {
             text7_content = doc["nextMeetingString"].as<String>();
             text8_content = doc["nextMeetingSubject"].as<String>();
             text9_content = doc["nextMeetingTimeString"].as<String>();
-            show_extend_btn = doc["canExtend"].as<int>();
-            show_end_btn = doc["canEndMeeting"].as<int>();
-            show_reserve_btn = doc["canInstantReserve"].as<int>();
+            // show_extend_btn = doc["canExtend"].as<int>();
+            // show_end_btn = doc["canEndMeeting"].as<int>();
+            // show_reserve_btn = doc["canInstantReserve"].as<int>();
             occupied = doc["occupied"].as<int>();
 
             if (doc["timezone"] && timezone_string == "") {

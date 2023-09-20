@@ -21,7 +21,7 @@ String timezone_string = ""; // None, or use your own custom Unix timezone strin
 // String timezone_string = "America/New_York"; // Eastern, US
 // String timezone_string = "America/Chicago"; // Central, US
 // String timezone_string = "America/Denver"; // Mountain, US
-//String timezone_string = "America/Los_Angeles"; // Pacific, US
+// String timezone_string = "America/Los_Angeles"; // Pacific, US
 // ------------------------------------------------------------
 
 // Timezone Offset, if timezone_string is not set
@@ -70,9 +70,9 @@ String please_wait_str = "Please Wait..";
 // DO NOT EDIT BELOW THIS LINE //
 ////////////////////////////////
 
-// Warn if not Inkplate 6PLUS
-#ifndef ARDUINO_INKPLATE6PLUS
-#error "Error: This program can only run on the Inkplate 6PLUS."
+// Warn if not Inkplate 6
+#ifndef ARDUINO_INKPLATE6V2
+#error "Error: This program can only run on the Inkplate 6 v2."
 #endif
 
 #include "Inkplate.h"
@@ -116,10 +116,10 @@ void setup() {
     display.setRotation(rotation);
     
     // Setup mcp interrupts
-    display.pinModeInternal(MCP23017_INT_ADDR, display.mcpRegsInt, touchPadPin, INPUT);
-    display.setIntOutput(1, false, false, HIGH);
-    display.setIntPin(touchPadPin, RISING);
-    if (!display.tsInit(true)) Serial.println("Touchscreen init failed!");
+    // display.pinModeInternal(MCP23017_INT_ADDR, display.mcpRegsInt, touchPadPin, INPUT);
+    // display.setIntOutput(1, false, false, HIGH);
+    // display.setIntPin(touchPadPin, RISING);
+    // if (!display.tsInit(true)) Serial.println("Touchscreen init failed!");
     
     action = 0;
     ++bootCount;
@@ -224,7 +224,7 @@ void sleepOrDont() {
       Serial.println("Touchscreen disabled for 10 minutes");
 
       // Deep sleep
-      display.tsShutdown();
+      // display.tsShutdown();
       rtc_gpio_isolate(GPIO_NUM_12);
       esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
       esp_sleep_enable_ext0_wakeup(GPIO_NUM_36, 0);
@@ -279,49 +279,49 @@ void keysEvents() {
     // Portrait
     if (rotation == 1 || rotation == 3) {
       // Instant Reservation Press
-      if (display.touchInArea(500, 772, 245, 100) && show_reserve_btn == 1) {
-          Serial.println("Instant Reservation Pressed");
-          resetText();
-          action = 1; // Instant Reservation
-          getDisplayData();
-      }
+      // if (display.touchInArea(500, 772, 245, 100) && show_reserve_btn == 1) {
+      //     Serial.println("Instant Reservation Pressed");
+      //     resetText();
+      //     action = 1; // Instant Reservation
+      //     getDisplayData();
+      // }
       // End Early Press
-      if (display.touchInArea(500, 900, 245, 100) && show_end_btn == 1) {
-          Serial.println("End Early Pressed");
-          resetText();
-          action = 2; // End early
-          getDisplayData();
-      }
+      // if (display.touchInArea(500, 900, 245, 100) && show_end_btn == 1) {
+      //     Serial.println("End Early Pressed");
+      //     resetText();
+      //     action = 2; // End early
+      //     getDisplayData();
+      // }
       // Extend Meeting Press
-      if (display.touchInArea(500, 782, 245, 100) && show_extend_btn == 1) {
-          Serial.println("Extend Meeting Pressed");
-          resetText();
-          action = 3; // Extend Meeting
-          getDisplayData();
-      }
+      // if (display.touchInArea(500, 782, 245, 100) && show_extend_btn == 1) {
+      //     Serial.println("Extend Meeting Pressed");
+      //     resetText();
+      //     action = 3; // Extend Meeting
+      //     getDisplayData();
+      // }
      
     } else { // Landscape
       // Instant Reservation Press
-      if (display.touchInArea(770, 185, 245, 100) && show_reserve_btn == 1) {
-          Serial.println("Instant Reservation Pressed");
-          resetText();
-          action = 1; // Instant Reservation
-          getDisplayData();
-      }
+      // if (display.touchInArea(770, 185, 245, 100) && show_reserve_btn == 1) {
+      //     Serial.println("Instant Reservation Pressed");
+      //     resetText();
+      //     action = 1; // Instant Reservation
+      //     getDisplayData();
+      // }
       // End Early Press
-      if (display.touchInArea(770, 400, 245, 100) && show_end_btn == 1) {
-          Serial.println("End Early Pressed");
-          resetText();
-          action = 2; // End early
-          getDisplayData();
-      }
+      // if (display.touchInArea(770, 400, 245, 100) && show_end_btn == 1) {
+      //     Serial.println("End Early Pressed");
+      //     resetText();
+      //     action = 2; // End early
+      //     getDisplayData();
+      // }
       // Extend Meeting Press
-      if (display.touchInArea(770, 292, 245, 100) && show_extend_btn == 1) {
-          Serial.println("Extend Meeting Pressed");
-          resetText();
-          action = 3; // Extend Meeting
-          getDisplayData();
-      }
+      // if (display.touchInArea(770, 292, 245, 100) && show_extend_btn == 1) {
+      //     Serial.println("Extend Meeting Pressed");
+      //     resetText();
+      //     action = 3; // Extend Meeting
+      //     getDisplayData();
+      // }
     }
 
     // Fetch new display data every n minutes
