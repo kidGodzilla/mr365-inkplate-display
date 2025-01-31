@@ -70,9 +70,9 @@ String please_wait_str = "Please Wait..";
 // DO NOT EDIT BELOW THIS LINE //
 ////////////////////////////////
 
-// Warn if not Inkplate 6PLUS
-#ifndef ARDUINO_INKPLATE6PLUS
-#error "Error: This program can only run on the Inkplate 6PLUS."
+// Warn if not Inkplate6PLUS or Inkplate6FLICK
+#if !(defined(ARDUINO_INKPLATE6PLUS) || defined(ARDUINO_INKPLATE6PLUSV2) || defined(ARDUINO_INKPLATE6FLICK))
+#error "Error: This program can only run on supported Inkplate models (6PLUS, 6PLUSV2, 6FLICK)."
 #endif
 
 #include "Inkplate.h"
