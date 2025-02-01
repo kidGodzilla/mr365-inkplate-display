@@ -1,6 +1,7 @@
 /*
    Meeting Room 365 E-ink Display App
-   (c) 2022 James Futhey. All Rights Reserved.
+   Designed for the Inkplate 6PLUS, 6PLUSV2, 6FLICK.
+   (c) 2022-2024 James Futhey. All Rights Reserved.
 */
 
 //////////////////////////////////
@@ -18,13 +19,37 @@ char displayKey[] = "yourdisplaykeyhere";
 // If this is set, you don't need to provide an offset
 // ------------------------------------------------------------
 String timezone_string = ""; // None, or use your own custom Unix timezone string
+// ------------------------------------------------------------
 // String timezone_string = "America/New_York"; // Eastern, US
 // String timezone_string = "America/Chicago"; // Central, US
 // String timezone_string = "America/Denver"; // Mountain, US
-//String timezone_string = "America/Los_Angeles"; // Pacific, US
+// String timezone_string = "America/Los_Angeles"; // Pacific, US
+// ------------------------------------------------------------
+// String timezone_string = "Asia/Taipei"; // Taipei, Taiwan
+// String timezone_string = "Asia/Tokyo"; // Tokyo, Japan (JST - No DST)
+// String timezone_string = "Asia/Seoul"; // Seoul, South Korea (KST - No DST)
+// String timezone_string = "Asia/Singapore"; // Singapore (SGT - No DST)
+// String timezone_string = "Asia/Bangkok"; // Bangkok, Thailand (ICT - No DST)
+// ------------------------------------------------------------
+// String timezone_string = "Europe/London"; // London, UK (GMT/BST)
+// String timezone_string = "Europe/Paris"; // Paris, France (CET/CEST)
+// String timezone_string = "Europe/Berlin"; // Berlin, Germany (CET/CEST)
+// String timezone_string = "Europe/Madrid"; // Madrid, Spain (CET/CEST)
+// String timezone_string = "Europe/Rome"; // Rome, Italy (CET/CEST)
+// String timezone_string = "Europe/Amsterdam"; // Amsterdam, Netherlands (CET/CEST)
+// String timezone_string = "Europe/Brussels"; // Brussels, Belgium (CET/CEST)
+// String timezone_string = "Europe/Stockholm"; // Stockholm, Sweden (CET/CEST)
+// String timezone_string = "Europe/Oslo"; // Oslo, Norway (CET/CEST)
+// String timezone_string = "Europe/Copenhagen"; // Copenhagen, Denmark (CET/CEST)
+// String timezone_string = "Europe/Vienna"; // Vienna, Austria (CET/CEST)
+// String timezone_string = "Europe/Zurich"; // Zurich, Switzerland (CET/CEST)
+// String timezone_string = "Europe/Helsinki"; // Helsinki, Finland (EET/EEST)
+// String timezone_string = "Europe/Athens"; // Athens, Greece (EET/EEST)
+// String timezone_string = "Atlantic/Reykjavik"; // Reykjavik, Iceland (GMT - No DST)
 // ------------------------------------------------------------
 
 // Timezone Offset, if timezone_string is not set
+// Do not bother to comment out, it's overwritten by timezone_string
 int timeZone = -7;
 // ------------------------------------------------------------
 
