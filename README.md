@@ -53,19 +53,19 @@ https://soldered.com/product/inkplate-6plus-with-enclosure-e-paper-display-with-
 https://soldered.com/product/soldered-inkplate-6plus-with-enclosure-e-paper-display-with-touchscreen-copy/
 
 
-## Getting Started with the InkPlate 6 Plus
+## Getting Started with the InkPlate 6 Plus, InkPlate 6 Plus V2, or InkPlate 6 FLICK
 
 https://www.crowdsupply.com/e-radionica/inkplate-6/updates/getting-started-with-inkplate-6-and-arduino-ide
 
 https://github.com/SolderedElectronics/Inkplate-Arduino-library
 
-### Setting up Inkplate 6 Using the Arduino IDE
-In order to get started with Inkplate 6, follow the steps below:
+### Setting up Inkplate 6PLUS Using the Arduino IDE
+In order to get started with Inkplate 6PLUS, follow the steps below:
 
 1. [Install the Inkplate 6 board definition](https://github.com/e-radionicacom/Croduino-Board-Definitions-for-Arduino-IDE/blob/master/README.md) to add Inkplate 6 Plus as a board in Arduino IDE
 2. [Install the CH340 drivers](https://soldered.com/learn/ch340-driver-installation-croduino-basic3-nova2/) (if you don't have them already)
 3. Install the Inkplate 6 Plus Arduino library from our GitHub repository ([Guide](https://soldered.com/learn/arduino-library/#Kako%20instaliraty%20library?))
-4. Your Inkplate 6 is now ready to go! Just select Tools -> Board -> Inkplate 6, choose the correct COM port, and upload your code, cloned from the linked repository
+4. Your Inkplate 6PLUS is now ready to go! Just select Tools -> Board -> Inkplate 6, choose the correct COM port, and upload your code, cloned from the linked repository
 
 ## Building and Deploying the Meeting Room 365 app to the InkPlate 6 Plus
 
