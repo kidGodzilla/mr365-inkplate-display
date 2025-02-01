@@ -72,8 +72,14 @@ In order to get started with Inkplate 6, follow the steps below:
 1. Clone or [Download](https://github.com/kidGodzilla/mr365-inkplate-display/archive/refs/heads/main.zip) the linked [GitHub Repository](https://github.com/kidGodzilla/mr365-inkplate-display), and open it in Arduino IDE
 2. Modify variables in the top portion of [Inkplate_mr365.ino](https://github.com/kidGodzilla/mr365-inkplate-display/blob/main/inkplate-6plus/Inkplate_mr365.ino). You will need to add your SSID, Wifi Password, and Display Key, at minimum.
 3. Ensure the correct board is selected under the "Tools" tab.
-4. Click "Upload" under the "Sketch" tab.
+4. **Install libraries:**
+   In Arduino IDE, just go to the Library manager and install these:
+    * inkplatelibrary
+    * eztime
+    * arduinojson
+5. Click "Upload" under the "Sketch" tab.
 
+It should now compile for Inkplate 6PLUS, 6PLUSV2, 6FLICK
 
 ## Photos
 
