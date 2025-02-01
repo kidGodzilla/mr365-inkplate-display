@@ -110,17 +110,36 @@ Inkplate display(INKPLATE_3BIT);
 Network network;
 
 void setup() {
+    #ifdef ARDUINO_INKPLATE6PLUS
+        // Optional: Uncomment if using USB-only powered Inkplate 6PLUS
+        // display.setInkplatePowerMode(INKPLATE_USB_PWR_ONLY);
+    #endif
+
     display.begin();
     Serial.begin(115200);
     display.frontlight(0);
     display.setRotation(rotation);
-    
-    // Setup mcp interrupts
-    display.pinModeInternal(MCP23017_INT_ADDR, display.mcpRegsInt, touchPadPin, INPUT);
-    display.setIntOutput(1, false, false, HIGH);
-    display.setIntPin(touchPadPin, RISING);
-    if (!display.tsInit(true)) Serial.println("Touchscreen init failed!");
-    
+
+    // Re-initialize touchscreen after wake from deep sleep
+    if (esp_sleep_get_wakeup_cause() != ESP_SLEEP_WAKEUP_TIMER) {
+        if (!display.tsInit(true)) {
+            Serial.println("Touchscreen re-init failed after wake.");
+        }
+    }
+
+    #ifdef ARDUINO_INKPLATE6PLUS
+        display.setIntOutput(1, false, false, HIGH);
+        display.setIntPin(PAD1, RISING, IO_INT_ADDR);
+        display.setIntPin(PAD2, RISING, IO_INT_ADDR);
+        display.setIntPin(PAD3, RISING, IO_INT_ADDR);
+    #elif defined(ARDUINO_INKPLATE6PLUSV2)
+        display.setIntPin(PAD1, IO_INT_ADDR);
+        display.setIntPin(PAD2, IO_INT_ADDR);
+        display.setIntPin(PAD3, IO_INT_ADDR);
+    #elif defined(ARDUINO_INKPLATE6FLICK)
+        // No MCP interrupt setup needed
+    #endif
+
     action = 0;
     ++bootCount;
     displayInfo();
@@ -135,33 +154,32 @@ void readBattery() {
     float voltage = display.readBattery();
     float temp = display.readTemperature();
     voltstr = String(voltage, 1);
-    
-    // Serial debugging information
-    Serial.println("Hour of day:");
-    Serial.println(hours);
-    Serial.println("Voltage, powered, temp, batt<threshold:");
-    Serial.println(voltage);
-    Serial.println(powered);
-    Serial.print(display.readTemperature(), DEC);
-    Serial.println(" ");
 
-    // Convert voltage to percent
+    // Debugging Information
+    Serial.println("Hour of day: " + String(hours));
+    Serial.println("Voltage: " + String(voltage, 2) + "V, Powered: " + String(powered) + ", Temp: " + String(temp));
+
+    // Battery Percentage Calculation
     battery_percent = ((voltage - battery_min) / (battery_max - battery_min)) * 100;
-    if (battery_percent >= battery_threshold) battery_is_below_threshold = 0;
-    else battery_is_below_threshold = 1;
-    Serial.println(battery_is_below_threshold);
-    
-    rect02_b_x = 774 + (battery_percent / 4); // Dynamic icon "fill" width 774-799
-    if (battery_percent >= 100.0) battery_percent = 100.0;
-    if (battery_percent < 0.0) battery_percent = 0.0;
-    if (String(powered) == "255") charging = "+";
-    if (battery_percent == 100) charging = "";
-    text0_content = charging + String(battery_percent, 0) + "%";
+    battery_percent = constrain(battery_percent, 0.0, 100.0);  // Clamp to 0–100%
 
+    battery_is_below_threshold = (battery_percent < battery_threshold) ? 1 : 0;
+    Serial.println("Battery below threshold: " + String(battery_is_below_threshold));
+
+    // Dynamic Icon Fill Calculation
+    rect02_b_x = 774 + (battery_percent / 4);  // Adjust fill width (774–799)
+
+    // Charging Status
+    if (powered == 255) charging = "+";
+    if (battery_percent == 100) charging = "";
+
+    // Display Battery Percentage or Temperature
     if (show_temperature) {
         show_battery_percent = 1;
-        if (temp_in_f) temp = temp * (9/5) + 32;
+        if (temp_in_f) temp = temp * 9.0 / 5.0 + 32;  // Convert to Fahrenheit if needed
         text0_content = " " + String(temp, 0) + " " + (temp_in_f ? "F" : "C");
+    } else {
+        text0_content = charging + String(battery_percent, 0) + "%";
     }
 }
 
@@ -217,18 +235,30 @@ void hideButtonsIfSleeping() {
 
 void sleepOrDont() {
     if (wake_btn_pressed == 1 || (hours > touch_start_hour && hours < touch_end_hour && battery_is_below_threshold == 0)) {
-      Serial.println("Touchscreen enabled");
-      // wake_btn_pressed = 0;
-      
+        Serial.println("Touchscreen enabled");
     } else {
-      Serial.println("Touchscreen disabled for 10 minutes");
+        Serial.println("Touchscreen disabled for 10 minutes");
 
-      // Deep sleep
-      display.tsShutdown();
-      rtc_gpio_isolate(GPIO_NUM_12);
-      esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
-      esp_sleep_enable_ext0_wakeup(GPIO_NUM_36, 0);
-      esp_deep_sleep_start();
+        // Shut down touchscreen to save power
+        display.tsShutdown();
+
+        // Enable wake-up sources
+        esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
+        esp_sleep_enable_ext0_wakeup(GPIO_NUM_36, 0); // Wake button
+
+        #ifdef ARDUINO_INKPLATE6FLICK
+            // Use GPIO_34 (touchpad INT) for wakeup
+            esp_sleep_enable_ext1_wakeup((1LL << GPIO_NUM_34), ESP_EXT1_WAKEUP_ALL_LOW);
+            display.tsSetPowerState(CYPRESS_TOUCH_DEEP_SLEEP_MODE); // Save power
+        #elif defined(ARDUINO_INKPLATE6PLUSV2)
+            // 6PLUS V2 uses ALL_LOW wake condition
+            esp_sleep_enable_ext1_wakeup((1LL << GPIO_NUM_34), ESP_EXT1_WAKEUP_ALL_LOW);
+        #else
+            // Standard wake-up for 6PLUS V1
+            esp_sleep_enable_ext1_wakeup((1LL << GPIO_NUM_34), ESP_EXT1_WAKEUP_ANY_HIGH);
+        #endif
+
+        esp_deep_sleep_start();
     }
 }
 
@@ -344,31 +374,28 @@ void displayInfo() {
     Serial.print(F("Boot count: "));
     Serial.println(bootCount, DEC);
 
-    // Display wake up reason
-    esp_sleep_wakeup_cause_t wakeup_reason;
-    wakeup_reason = esp_sleep_get_wakeup_cause();
-    
+    esp_sleep_wakeup_cause_t wakeup_reason = esp_sleep_get_wakeup_cause();
     switch (wakeup_reason) {
-    case ESP_SLEEP_WAKEUP_EXT0:
-        Serial.println("Wakeup caused by external signal using RTC_IO");
-        wake_btn_pressed = 1;
-        resetText();
-        break;
-    case ESP_SLEEP_WAKEUP_EXT1:
-        Serial.println("Wakeup caused by external signal using RTC_CNTL");
-        break;
-    case ESP_SLEEP_WAKEUP_TIMER:
-        Serial.println("Wakeup caused by timer");
-        break;
-    case ESP_SLEEP_WAKEUP_TOUCHPAD:
-        Serial.println("Wakeup caused by touchpad");
-        break;
-    case ESP_SLEEP_WAKEUP_ULP:
-        Serial.println("Wakeup caused by ULP program");
-        break;
-    default:
-        Serial.println("Wakeup was not caused by deep sleep");
-        break;
+        case ESP_SLEEP_WAKEUP_EXT0:
+            Serial.println("Wakeup caused by external signal using RTC_IO");
+            wake_btn_pressed = 1;
+            resetText();
+            break;
+        case ESP_SLEEP_WAKEUP_EXT1:
+            Serial.println("Wakeup caused by external signal using RTC_CNTL");
+            break;
+        case ESP_SLEEP_WAKEUP_TIMER:
+            Serial.println("Wakeup caused by timer");
+            break;
+        case ESP_SLEEP_WAKEUP_TOUCHPAD:
+            Serial.println("Wakeup caused by touchpad");
+            break;
+        case ESP_SLEEP_WAKEUP_ULP:
+            Serial.println("Wakeup caused by ULP program");
+            break;
+        default:
+            Serial.println("Wakeup was not caused by deep sleep");
+            break;
     }
 }
 
